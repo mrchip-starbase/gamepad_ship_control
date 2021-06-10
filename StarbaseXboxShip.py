@@ -19,18 +19,18 @@ def translate(value, leftMin, leftMax, rightMin, rightMax):
 
 
 ######  ↓↓ Script ↓↓ ######
-yaw = joystick[device_idx].xRotation
-pitch = joystick[device_idx].yRotation
+yaw = xbox360[device_idx].rightStickX
+pitch = -xbox360[device_idx].rightStickY
+diagnostics.watch(yaw)
+diagnostics.watch(pitch)
 
 #Deadzone
 input_size = math.sqrt(  yaw**2 + pitch**2  )
-if input_size < deadzone*10:
+if input_size < translate(deadzone, 0, 100, 0, 1):
 	yaw = 0
 	pitch = 0
 
-yaw = translate(yaw , -1000, 1000, res_h/2-square_size/2 , res_h/2+square_size/2 )
-pitch = translate(pitch , -1000, 1000, res_v/2-square_size/2 , res_v/2+square_size/2 )
+yaw = translate(yaw , -1, 1, res_h/2-square_size/2 , res_h/2+square_size/2 )
+pitch = translate(pitch , -1, 1, res_v/2-square_size/2 , res_v/2+square_size/2 )
 
 ctypes.windll.user32.SetCursorPos(int(yaw), int(pitch))
-#diagnostics.watch(yaw)
-#diagnostics.watch(pitch)
